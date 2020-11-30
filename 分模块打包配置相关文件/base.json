@@ -1,0 +1,37 @@
+{
+	"code": "00000",
+	"status": "success",
+	"msg": "",
+	"userName": "admin",
+	"roleName": "管理员",
+	"roleCode": "0",
+	"menuList": [{
+			"id": "0",
+			"title": "全景概览",
+			"menuType": "0",
+			"menuTypeName": "模块菜单",
+			"path": "/grid_namagement_platform/full_view"
+		},
+		{
+			"id": "1",
+			"title": "系统设置",
+			"menuType": "1",
+			"menuTypeName": "下拉菜单",
+			"path": "/common/system_settings"
+		},
+		{
+			"id": "2",
+			"title": "实有人口",
+			"menuType": "0",
+			"menuTypeName": "模块菜单",
+			"path": "/basic_data_platform/actual_population"
+		},
+		{
+			"id": "3",
+			"title": "基础数据平台",
+			"menuType": "2",
+			"menuTypeName": "平台菜单",
+			"path": "/basic_data_platform/index"
+		}
+	]
+}
