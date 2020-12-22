@@ -70,7 +70,7 @@
 </script>
 ```
 
-#### 输出的结果为： start end a e f g b c i d h
+
 
 ```text
 第一轮循环：
@@ -99,11 +99,12 @@
 2、执行微任务nextTick1，打印 f
 3、执行微任务then1，打印 g
 4、执行所有宏任务
-5、执行宏任务setImmediate1 打印  b
-6、nextTick放到微任务队列里nextTick1 
-7、then放到微任务队列里then1
-第三轮循环打印出的是 start end a e f g b
-当前宏任务队列：setImmediate2 setTimeout1
+5、由于setTimeout高于setImmediate，所以执行setTimeout1 ，打印 h
+6、执行宏任务setImmediate1 打印  b
+7、nextTick放到微任务队列里nextTick1 
+8、then放到微任务队列里then1
+第三轮循环打印出的是 start end a e f g h b
+当前宏任务队列：setImmediate2
 当前微任务队列：nextTick1 then1
 
 第四轮循环：
@@ -111,8 +112,7 @@
 2、执行微任务nextTick1，打印 c
 3、执行微任务then1，打印 i
 4、执行宏任务setImmediate2 打印 d
-5、执行宏任务setTimeout1 打印 h
-第四轮循环打印出的是 start end a e f g b c i d h
+第四轮循环打印出的是 start end a e f g h b c i d 
 ```
 
 如果有任务就先执行微任务
