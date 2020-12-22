@@ -24,23 +24,15 @@
 
 ## 宏任务与微任务的执行过程
 
-1、开始
-
-2、宏任务
-
-3、判断是否有微任务
-
-1）没有的话执行新的宏任务
-
-​	  2）有的话执行所有微任务
-
-​			2-1）开始执行新的宏任务
+> 微任务和宏任务的问题应该是前端面试中比较常见的，他们都从属于异步任务，主要区别在于他们的执行顺序，Event Loop的走向和取值
 
 
+
+![img](https://pic3.zhimg.com/80/v2-1dd1305e20e2df08e186d6c2bfc8ab3e_720w.jpg)
 
 ## 测试结果
 
-```javascript
+```js
 <script>
    console.log("start");
    process.nextTick(() => {
@@ -78,7 +70,96 @@
 </script>
 ```
 
-#### 输出的结果为： `start end a e g f h b d c i`
+#### 输出的结果为： start end a e f g b c i d h
 
+```text
+第一轮循环：
+1、打印  start 
+2、打印  end    
+3、nextTick放到微任务队列里nextTick1   
+4、setImmediate放到宏任务队列里setImmediate1
+第一轮循环打印出的是 start end
+当前宏任务队列：setImmediate1
+当前微任务队列：nextTick1 
 
+第二轮循环：
+1、执行所有微任务
+2、打印  a
+3、setImmediate放到宏任务队列里setImmediate2
+4、打印  e
+5、nextTick放到微任务队列里nextTick1   
+6、then放到微任务队列里then1
+7、setTimeout放到宏任务队列里setTimeout1
+第二轮循环打印出的是 start end a e
+当前宏任务队列：setImmediate1 setImmediate2 setTimeout1
+当前微任务队列：nextTick1 then1
 
+第三轮循环：
+1、执行所有微任务
+2、执行微任务nextTick1，打印 f
+3、执行微任务then1，打印 g
+4、执行所有宏任务
+5、执行宏任务setImmediate1 打印  b
+6、nextTick放到微任务队列里nextTick1 
+7、then放到微任务队列里then1
+第三轮循环打印出的是 start end a e f g b
+当前宏任务队列：setImmediate2 setTimeout1
+当前微任务队列：nextTick1 then1
+
+第四轮循环：
+1、执行微任务
+2、执行微任务nextTick1，打印 c
+3、执行微任务then1，打印 i
+4、执行宏任务setImmediate2 打印 d
+5、执行宏任务setTimeout1 打印 h
+第四轮循环打印出的是 start end a e f g b c i d h
+```
+
+如果有任务就先执行微任务
+
+通过上面步骤的讲解，看一下下面的执行顺序练习
+
+```js
+console.log('1');
+
+setTimeout(function() {
+    console.log('2');
+    process.nextTick(function() {
+        console.log('3');
+    })
+    new Promise(function(resolve) {
+        console.log('4');
+        resolve();
+    }).then(function() {
+        console.log('5')
+    })
+})
+process.nextTick(function() {
+    console.log('6');
+})
+new Promise(function(resolve) {
+    console.log('7');
+    resolve();
+}).then(function() {
+    console.log('8')
+})
+
+setTimeout(function() {
+    console.log('9');
+    process.nextTick(function() {
+        console.log('10');
+    })
+    new Promise(function(resolve) {
+        console.log('11');
+        resolve();
+    }).then(function() {
+        console.log('12')
+    })
+})
+```
+
+结果是什么  
+
+```text
+最终打印顺序为：1 7 6 8 2 4 3 5 9 11 10 12
+```
