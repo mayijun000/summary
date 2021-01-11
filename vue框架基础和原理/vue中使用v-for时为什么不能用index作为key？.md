@@ -13,7 +13,6 @@
 <template>
 	<div v-for="(item, index) in list" :key="index" >{{item.name}}</div>
 </template>
-123
 const list = [
     {
         id: 1,
@@ -32,7 +31,6 @@ const list = [
         name:"Person4"
     }
 ];
-123456789101112131415161718
 ```
 
 此时，删除 “Person4” 是正常的，但是如果我删除 “Person2” 就会出现问题。
