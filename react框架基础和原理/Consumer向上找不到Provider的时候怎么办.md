@@ -1,0 +1,5 @@
+# Consumer向上找不到Provider的时候怎么办
+
+找不到会取用默认值，注意provider的value设置为undefined不会覆盖默认值
+
+此时就会取创建context时传给createContext的那个值，也就是当前context对象的默认值，在定义provider时的value中的值不是默认值，而是表示需要被传递的值
